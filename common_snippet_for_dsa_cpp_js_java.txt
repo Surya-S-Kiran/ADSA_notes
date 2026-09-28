@@ -1,0 +1,53 @@
+=================================================================custome comparators
+
+Test Case:
+pow[] = {1, 4, 2, 32, 8, 4}
+num[] = {0, 2, 1, 5, 3, 4}
+
+Output: 
+pow[] = {32, 8, 4, 4, 2, 1}
+num[] = {5, 3, 2, 4, 1, 0}
+
+-------------------------------------------C++---------------------------------------------
+
+std::vector<std::pair<int, int>> pairs;
+    for (int i = 0; i < num.size(); ++i)
+        pairs.push_back({pow[i], num[i]});
+
+std:: sort(pairs.begin(), pairs.end(), [](auto &a, auto &b){
+    if(a.first == b.first) return a.second < b.second;  //ascanding order
+    return a.first > b.first; //descanding order
+});
+
+-------------------------------------------Java---------------------------------------------
+List<Pair> list = new ArrayList<>();
+    for (int i = 0; i < num.length; i++)
+        list.add(new Pair(pow[i], num[i]));
+
+    list.sort((a, b) -> {
+        if (a.pow == b.pow) return a.num - b.num;
+            return b.pow - a.pow;
+    });
+
+-------------------------------------------JS-----------------------------------------------
+let paired = num.map((n, i) => ({ num: n, pow: pow[i] }));
+
+paired.sort((a, b) => {
+    if (a.pow === b.pow) return a.num - b.num; // ascending num
+    return b.pow - a.pow; // descending pow
+});
+
+num = paired.map(p => p.num);
+pow = paired.map(p => p.pow);
+
+-------------------------------------------Python---------------------------------------------------------------
+paired = list(zip(pow, num))
+
+# Sort by descending pow, then ascending num    
+paired.sort(key=lambda x: (-x[0], x[1]))
+
+pow, num = zip(*paired)
+-----------------------------------------------------------------------------------------------------------------
+
+
+

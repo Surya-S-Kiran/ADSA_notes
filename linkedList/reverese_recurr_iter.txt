@@ -1,0 +1,105 @@
+--------------------------------------------------------Reverse linked list (iter + recurr)------------------------------------------------------------
+
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+    Node(int data) {
+        this->data = data;
+        next = nullptr;
+    }
+};
+
+class ListNode {
+    Node* head;
+public:
+    ListNode(int val) {
+        head = new Node(val);
+        head->next = nullptr;
+    }
+
+    void addToLinkedListBegin(int val) {
+        Node* newNode = new Node(val);
+        newNode->next = head;
+        head = newNode;
+    }
+
+    void addToLinkedListEnd(int val) {
+        Node* newNode = new Node(val);
+        Node* temp = head;
+        while (temp->next) {
+            temp = temp->next;
+        }
+        temp->next = newNode;
+    }
+
+    void printLinkedList() {
+        Node* temp = head;
+        while (temp) {
+            cout << temp->data << " ";
+            temp = temp->next;
+        }
+        cout << endl;
+    }
+
+    Node* getHead() {
+        return head;
+    }
+
+    void setHead(Node* newHead) {
+        head = newHead;
+    }
+};
+
+// Recursive reversal
+Node* reverseLinkedListRecurr(Node* start) {
+    if (start == nullptr || start->next == nullptr) return start;
+    Node* rem = reverseLinkedListRecurr(start->next);
+    start->next->next = start;
+    start->next = nullptr;
+    return rem;
+}
+
+// Iterative reversal
+Node* reverseLinkedList(Node* start) {
+    Node* prev = nullptr;
+    Node* curr = start;
+    while (curr) {
+        Node* next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+    return prev;
+}
+
+int main() {
+    ListNode* head = new ListNode(1);
+    head->addToLinkedListBegin(2);
+    head->addToLinkedListBegin(3);
+    head->addToLinkedListBegin(4);
+    head->addToLinkedListEnd(5);
+    head->addToLinkedListEnd(6);
+
+    cout << "Original List: ";
+    head->printLinkedList();
+
+    // Recursive reverse
+    Node* revHeadRec = reverseLinkedListRecurr(head->getHead());
+    ListNode reversedListRec(0); // dummy init
+    reversedListRec.setHead(revHeadRec);
+    cout << "Reversed List (Recursive): ";
+    reversedListRec.printLinkedList();
+
+    // Iterative reverse
+    Node* revHeadIter = reverseLinkedList(revHeadRec); // Re-reverse to original
+    ListNode reversedListIter(0);
+    reversedListIter.setHead(revHeadIter);
+    cout << "Reversed List (Iterative): ";
+    reversedListIter.printLinkedList();
+
+    return 0;
+}

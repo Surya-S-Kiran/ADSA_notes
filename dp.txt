@@ -1,0 +1,178 @@
+*************************************************** Pattern 1 *************************************************************
+
+if you have given  the target, and have find the max/min in path/cost/sum:
+===========================================================================================================================
+appoach:(top down) -> memoization
+---------------------------------------------------------------------------------------------------------------------------
+returnType Solve(..arguments){
+
+    //base condition
+
+    //dp returning
+
+    for(int j=0; j<ways.size(); j++){
+        result = min(result, Solve(target-ways[j])) + path/cost/sum
+    }
+    return memo[/state parameter/] = result;
+}
+============================================================================================================================
+appoach(bottom up) -> 
+----------------------------------------------------------------------------------------------------------------------------
+for (int i = 1; i <= target; ++i) {
+   for (int j = 0; j < ways.size(); ++j) {
+       if (ways[j] <= i) {
+           dp[i] = min(dp[i], dp[i - ways[j]] + cost / path / sum) ;
+       }
+   }
+}
+ 
+return dp[target]
+==============================================================================================================================
+
+***************************************************Pattern 2*******************************************************************
+Problem:
+Given an array coins[] of denominations and a target sum x, 
+return the minimum number of coins required to make the sum x. If not possible, return -1.
+
+---------------------------------------------------------------------------------------------------------------------------------
+ Pattern Name:
+🧠 "Unbounded Knapsack – Minimize Count"
+You can use each coin infinite times
+
+You need to minimize the number of coins used (unlike counting all ways)
+
+This is a variation of Unbounded Knapsack with a twist in objective
+
+-----------------------------------------------------------------------------------------------------------------------------------
+✅ Common Questions from Same Pattern Family
+Here’s a table of related problems with similar logic:
+
+Problem	Pattern	Description
+1. Coin Change (Minimum coins)	Unbounded Knapsack (Minimize)	Use any number of coins to make a sum x with minimum coins
+2. Coin Change 2 (Total combinations)	Unbounded Knapsack (Count ways)	Count total number of ways to make x using coins
+3. Rod Cutting	Unbounded Knapsack	Max profit from cutting rod pieces with given lengths & prices
+4. Minimum Number of Squares to Sum to N	Similar Recurrence	Use min number of perfect squares (e.g. 1, 4, 9...) to make sum N
+5. Word Break Problem	DP + Memoization	Break string into dictionary words — similar recursive/memo approach
+6. Perfect Sum Problem	Subset Sum variant	Count number of subsets with sum x
+7. Integer Break	Maximize Product	Break integer into parts to maximize product — unbounded split
+8. Target Sum (Leetcode)	DP on sum ± signs	Assign + or - to numbers to reach a target — reduce to subset sum
+9. Staircase Problem	Count Ways	Ways to climb stairs using 1, 2, ...k steps — unbounded approach
+10. Minimum Cost to Climb Stairs	DP on min cost	Minimize cost with step choices (like coins)
+
+🎯 How to Recognize This Pattern in Interviews
+Look for:
+
+You can reuse elements (e.g., coins, cuts, steps)
+
+You need to minimize or maximize count/value
+
+You're building solutions from 0 to target (bottom-up) or target to 0 (top-down)
+
+Options are tried recursively → then optimized with DP
+
+💡 Smart Trick to Remember
+Ask yourself...	If yes → It's this pattern
+Can I pick same element again?	✅ Yes = Unbounded
+Do I need min/max count/value?	✅ Yes = Optimize DP
+Can I frame it like a knapsack?	✅ Yes = Use DP recurrence
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+💥 SOLUTION LADDER
+We will now go step-by-step — each version being an optimization over the previous one:
+
+🚀 1. Brute-force Recursion
+cpp
+Copy
+Edit
+int minCoinsRecur(int i, int sum, vector<int> &coins) {
+    if (sum == 0) return 0;
+    if (sum < 0 || i == coins.size()) return INT_MAX;
+    
+    int take = INT_MAX;
+    if (coins[i] > 0) {
+        take = minCoinsRecur(i, sum - coins[i], coins);
+        if (take != INT_MAX) take++;
+    }
+    
+    int noTake = minCoinsRecur(i + 1, sum, coins);
+    
+    return min(take, noTake);
+}
+⛔ Time Complexity: O(2^n)
+Exponential due to re-exploring same (i, sum) repeatedly.
+
+✅ 2. Memoized Top-Down DP
+cpp
+Copy
+Edit
+int minCoinsRecur(int i, int sum, vector<int> &coins, vector<vector<int>> &memo) {
+    if (sum == 0) return 0;
+    if (sum < 0 || i == coins.size()) return INT_MAX;
+    
+    if (memo[i][sum] != -1) return memo[i][sum];
+    
+    int take = INT_MAX;
+    if (coins[i] > 0) {
+        take = minCoinsRecur(i, sum - coins[i], coins, memo);
+        if (take != INT_MAX) take++;
+    }
+    
+    int noTake = minCoinsRecur(i + 1, sum, coins, memo);
+    
+    return memo[i][sum] = min(take, noTake);
+}
+🧠 Improvement: Stores (i, sum) result → avoids redundant recursion
+📦 Space: O(n * sum)
+⏱ Time: O(n * sum)
+
+📊 3. Bottom-Up Tabulation (2D DP)
+cpp
+Copy
+Edit
+int minCoins(vector<int> &coins, int sum) {
+    vector<vector<int>> dp(coins.size(), vector<int>(sum + 1, INT_MAX));
+    
+    for (int i = coins.size() - 1; i >= 0; i--) {
+        for (int j = 1; j <= sum; j++) {
+            int take = INT_MAX, noTake = INT_MAX;
+            
+            if (j - coins[i] >= 0 && dp[i][j - coins[i]] != INT_MAX)
+                take = dp[i][j - coins[i]] + 1;
+
+            if (i + 1 < coins.size())
+                noTake = dp[i + 1][j];
+
+            dp[i][j] = min(take, noTake);
+        }
+    }
+    
+    return dp[0][sum] != INT_MAX ? dp[0][sum] : -1;
+}
+💡 Instead of recursion, we fill dp[i][sum] iteratively.
+
+⚡ 4. Space Optimized DP (1D)
+cpp
+Copy
+Edit
+int minCoins(vector<int> &coins, int sum) {
+    vector<int> dp(sum + 1, INT_MAX);
+    dp[0] = 0;
+
+    for (int i = 0; i < coins.size(); i++) {
+        for (int j = coins[i]; j <= sum; j++) {
+            if (dp[j - coins[i]] != INT_MAX)
+                dp[j] = min(dp[j], dp[j - coins[i]] + 1);
+        }
+    }
+
+    return dp[sum] != INT_MAX ? dp[sum] : -1;
+}
+🌟 Most efficient version:
+
+Only stores previous row (1D DP)
+
+Follows Unbounded Knapsack update logic:
+→ dp[j] = min(dp[j], 1 + dp[j - coin])
+
+--------------------------------------------------------------------------------------------------------------------------
