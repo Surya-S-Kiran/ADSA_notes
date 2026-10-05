@@ -1,0 +1,745 @@
+# C++ STL CHEAT SHEET
+
+Quick reference for C++ STL used in DSA and competitive programming.
+
+==================================================
+1. VECTOR
+==================================================
+
+Declaration:
+vector<int> v;
+vector<int> v(5);
+vector<int> v(5, 10);
+
+Add:
+v.push_back(10);
+v.emplace_back(20);
+
+Access:
+v[0];
+v.at(0);
+v.front();
+v.back();
+
+Size:
+v.size();
+v.empty();
+
+Remove:
+v.pop_back();
+v.clear();
+
+Iterate:
+for(int x : v) {
+    cout << x << " ";
+}
+
+Iterator:
+for(auto it = v.begin(); it != v.end(); it++) {
+    cout << *it << " ";
+}
+
+Erase one:
+v.erase(v.begin() + index);
+
+Erase range [l, r):
+v.erase(v.begin() + l, v.begin() + r);
+
+
+==================================================
+2. PAIR
+==================================================
+
+Declaration:
+pair<int, int> p;
+pair<int, int> p = {10, 20};
+
+Access:
+p.first;
+p.second;
+
+Vector of pairs:
+vector<pair<int,int>> v;
+
+v.push_back({1, 10});
+v.push_back({2, 20});
+
+
+==================================================
+3. STRING
+==================================================
+
+Declaration:
+string s = "hello";
+
+Access:
+s[0];
+s.front();
+s.back();
+
+Size:
+s.size();
+s.length();
+
+Add:
+s.push_back('a');
+s += "world";
+
+Remove:
+s.pop_back();
+
+Reverse:
+reverse(s.begin(), s.end());
+
+Sort:
+sort(s.begin(), s.end());
+
+Find:
+if(s.find("abc") != string::npos) {
+    cout << "Found";
+}
+
+
+==================================================
+4. SET
+==================================================
+
+Unique + sorted elements.
+
+Declaration:
+set<int> s;
+
+Insert:
+s.insert(10);
+s.insert(20);
+
+Find:
+if(s.find(x) != s.end()) {
+    cout << "Found";
+}
+
+Erase:
+s.erase(x);
+
+Size:
+s.size();
+
+Iterate:
+for(int x : s) {
+    cout << x << " ";
+}
+
+
+==================================================
+5. UNORDERED_SET
+==================================================
+
+Unique elements, no sorting.
+
+Declaration:
+unordered_set<int> s;
+
+Insert:
+s.insert(x);
+
+Find:
+if(s.find(x) != s.end()) {
+    cout << "Found";
+}
+
+Erase:
+s.erase(x);
+
+
+==================================================
+6. MAP
+==================================================
+
+Key-value pairs with sorted keys.
+
+Declaration:
+map<int, int> mp;
+
+Insert:
+mp[10] = 100;
+mp.insert({20, 200});
+
+Access:
+cout << mp[10];
+
+Frequency:
+for(int x : nums) {
+    mp[x]++;
+}
+
+Find:
+if(mp.find(x) != mp.end()) {
+    cout << "Found";
+}
+
+Erase:
+mp.erase(x);
+
+Iterate:
+for(auto p : mp) {
+    cout << p.first << " " << p.second << "\n";
+}
+
+Structured binding:
+for(auto [key, value] : mp) {
+    cout << key << " " << value << "\n";
+}
+
+
+==================================================
+7. UNORDERED_MAP
+==================================================
+
+Key-value pairs using hashing.
+
+Declaration:
+unordered_map<int, int> mp;
+
+Frequency:
+for(int x : nums) {
+    mp[x]++;
+}
+
+Find:
+if(mp.find(x) != mp.end()) {
+    cout << "Found";
+}
+
+Erase:
+mp.erase(x);
+
+Iterate:
+for(auto [key, value] : mp) {
+    cout << key << " " << value << "\n";
+}
+
+
+==================================================
+8. STACK
+==================================================
+
+LIFO = Last In First Out.
+
+Declaration:
+stack<int> st;
+
+Push:
+st.push(10);
+st.push(20);
+
+Top:
+st.top();
+
+Pop:
+st.pop();
+
+Empty:
+st.empty();
+
+Common pattern:
+while(!st.empty()) {
+    cout << st.top() << " ";
+    st.pop();
+}
+
+
+==================================================
+9. QUEUE
+==================================================
+
+FIFO = First In First Out.
+
+Declaration:
+queue<int> q;
+
+Push:
+q.push(10);
+q.push(20);
+
+Front:
+q.front();
+
+Back:
+q.back();
+
+Pop:
+q.pop();
+
+Common pattern:
+while(!q.empty()) {
+    cout << q.front() << " ";
+    q.pop();
+}
+
+
+==================================================
+10. DEQUE
+==================================================
+
+Insertion/removal from both ends.
+
+Declaration:
+deque<int> dq;
+
+Add:
+dq.push_back(10);
+dq.push_front(20);
+
+Remove:
+dq.pop_back();
+dq.pop_front();
+
+Access:
+dq.front();
+dq.back();
+
+
+==================================================
+11. PRIORITY QUEUE
+==================================================
+
+MAX HEAP:
+
+priority_queue<int> pq;
+
+Push:
+pq.push(10);
+pq.push(30);
+pq.push(20);
+
+Top:
+pq.top();       // 30
+
+Pop:
+pq.pop();
+
+
+MIN HEAP:
+
+priority_queue<int, vector<int>, greater<int>> pq;
+
+pq.push(30);
+pq.push(10);
+pq.push(20);
+
+pq.top();       // 10
+
+
+==================================================
+12. SORT
+==================================================
+
+Ascending:
+sort(v.begin(), v.end());
+
+Descending:
+sort(v.rbegin(), v.rend());
+
+Array:
+sort(arr, arr + n);
+
+Custom sorting:
+sort(v.begin(), v.end(), [](int a, int b) {
+    return a > b;
+});
+
+Sort pairs by second:
+sort(v.begin(), v.end(), [](pair<int,int> a, pair<int,int> b) {
+    return a.second < b.second;
+});
+
+
+==================================================
+13. REVERSE
+==================================================
+
+Vector:
+reverse(v.begin(), v.end());
+
+String:
+reverse(s.begin(), s.end());
+
+
+==================================================
+14. BINARY SEARCH
+==================================================
+
+Vector must be sorted.
+
+sort(v.begin(), v.end());
+
+if(binary_search(v.begin(), v.end(), x)) {
+    cout << "Found";
+}
+
+
+==================================================
+15. LOWER_BOUND
+==================================================
+
+Returns iterator to first element >= x.
+
+auto it = lower_bound(v.begin(), v.end(), x);
+
+Get index:
+int index = lower_bound(v.begin(), v.end(), x) - v.begin();
+
+Example:
+v = {1, 3, 3, 5, 7}
+
+lower_bound(v.begin(), v.end(), 3)
+-> index 1
+
+
+==================================================
+16. UPPER_BOUND
+==================================================
+
+Returns iterator to first element > x.
+
+auto it = upper_bound(v.begin(), v.end(), x);
+
+Get index:
+int index = upper_bound(v.begin(), v.end(), x) - v.begin();
+
+Example:
+v = {1, 3, 3, 5, 7}
+
+upper_bound(v.begin(), v.end(), 3)
+-> index 3
+
+
+==================================================
+17. COUNT
+==================================================
+
+Count occurrences:
+
+int cnt = count(v.begin(), v.end(), x);
+
+For sorted vector:
+
+int cnt = upper_bound(v.begin(), v.end(), x)
+        - lower_bound(v.begin(), v.end(), x);
+
+
+==================================================
+18. FIND
+==================================================
+
+Vector:
+
+auto it = find(v.begin(), v.end(), x);
+
+if(it != v.end()) {
+    cout << "Found";
+}
+
+Set/map:
+
+if(s.find(x) != s.end()) {
+    cout << "Found";
+}
+
+
+==================================================
+19. ACCUMULATE
+==================================================
+
+Include:
+#include <numeric>
+
+Sum:
+
+int sum = accumulate(v.begin(), v.end(), 0);
+
+Long long sum:
+
+long long sum = accumulate(v.begin(), v.end(), 0LL);
+
+
+==================================================
+20. IOTA
+==================================================
+
+Fill sequential values.
+
+vector<int> v(5);
+
+iota(v.begin(), v.end(), 1);
+
+Result:
+1 2 3 4 5
+
+
+==================================================
+21. MIN / MAX
+==================================================
+
+min(a, b);
+max(a, b);
+
+Multiple values:
+
+min({a, b, c});
+max({a, b, c});
+
+
+==================================================
+22. SWAP
+==================================================
+
+swap(a, b);
+
+
+==================================================
+23. ABS
+==================================================
+
+abs(x);
+
+
+==================================================
+24. ERASE-REMOVE IDIOM
+==================================================
+
+Remove all occurrences of x:
+
+v.erase(remove(v.begin(), v.end(), x), v.end());
+
+Example:
+
+vector<int> v = {1, 2, 3, 2, 4, 2};
+
+v.erase(remove(v.begin(), v.end(), 2), v.end());
+
+Result:
+1 3 4
+
+
+==================================================
+25. REMOVE DUPLICATES
+==================================================
+
+Sort first:
+
+sort(v.begin(), v.end());
+
+v.erase(unique(v.begin(), v.end()), v.end());
+
+Example:
+
+1 2 2 3 3 4
+
+becomes:
+
+1 2 3 4
+
+
+==================================================
+26. ITERATOR MOVEMENT
+==================================================
+
+Next:
+auto it = next(v.begin());
+
+Previous:
+auto it = prev(v.end());
+
+Move k positions:
+auto it = next(v.begin(), k);
+
+
+==================================================
+27. LAMBDA
+==================================================
+
+Basic syntax:
+
+[](int a, int b) {
+    return a < b;
+}
+
+Example:
+
+sort(v.begin(), v.end(), [](int a, int b) {
+    return a > b;
+});
+
+
+==================================================
+28. STRUCTURED BINDING
+==================================================
+
+Pair:
+
+auto [a, b] = p;
+
+Map:
+
+for(auto [key, value] : mp) {
+    cout << key << " " << value << "\n";
+}
+
+
+==================================================
+29. COMMON DSA PATTERNS
+==================================================
+
+FREQUENCY MAP:
+
+unordered_map<int, int> mp;
+
+for(int x : nums) {
+    mp[x]++;
+}
+
+
+CHECK DUPLICATE:
+
+unordered_set<int> s;
+
+for(int x : nums) {
+    if(s.find(x) != s.end()) {
+        cout << "Duplicate";
+    }
+
+    s.insert(x);
+}
+
+
+MIN HEAP:
+
+priority_queue<int, vector<int>, greater<int>> pq;
+
+
+MAX HEAP:
+
+priority_queue<int> pq;
+
+
+SORT + BINARY SEARCH:
+
+sort(nums.begin(), nums.end());
+
+int index = lower_bound(nums.begin(), nums.end(), x)
+          - nums.begin();
+
+
+REMOVE DUPLICATES:
+
+sort(nums.begin(), nums.end());
+
+nums.erase(unique(nums.begin(), nums.end()), nums.end());
+
+
+SUM:
+
+long long sum = accumulate(nums.begin(), nums.end(), 0LL);
+
+
+REMOVE ELEMENT:
+
+nums.erase(remove(nums.begin(), nums.end(), x), nums.end());
+
+
+==================================================
+30. TIME COMPLEXITY
+==================================================
+
+                    INSERT       SEARCH       DELETE
+
+vector              O(1)*        O(n)         O(n)
+
+set                 O(log n)     O(log n)     O(log n)
+
+unordered_set       O(1)*        O(1)*        O(1)*
+
+map                 O(log n)     O(log n)     O(log n)
+
+unordered_map       O(1)*        O(1)*        O(1)*
+
+priority_queue      O(log n)     O(1) top     O(log n)
+
+stack               O(1)         O(1) top     O(1)
+
+queue               O(1)         O(1) front   O(1)
+
+* Average/amortized complexity.
+
+
+==================================================
+31. HEADERS
+==================================================
+
+For competitive programming / LeetCode:
+
+#include <bits/stdc++.h>
+using namespace std;
+
+Standard C++:
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <map>
+#include <unordered_map>
+#include <set>
+#include <unordered_set>
+#include <stack>
+#include <queue>
+#include <deque>
+#include <numeric>
+
+using namespace std;
+
+
+==================================================
+MOST IMPORTANT TO MEMORIZE
+==================================================
+
+vector<int> v;
+
+v.push_back(x);
+
+for(int x : v) {}
+
+sort(v.begin(), v.end());
+
+reverse(v.begin(), v.end());
+
+map<int,int> mp;
+
+unordered_map<int,int> mp;
+
+mp[x]++;
+
+set<int> s;
+
+unordered_set<int> s;
+
+stack<int> st;
+
+queue<int> q;
+
+priority_queue<int> pq;
+
+priority_queue<int, vector<int>, greater<int>> pq;
+
+lower_bound(v.begin(), v.end(), x);
+
+upper_bound(v.begin(), v.end(), x);
+
+binary_search(v.begin(), v.end(), x);
+
+accumulate(v.begin(), v.end(), 0LL);
+
+v.erase(remove(v.begin(), v.end(), x), v.end());
+
+v.erase(unique(v.begin(), v.end()), v.end());
